@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  console.log('JEL IMA SESSION???', isLoggedIn);
+  // console.log('JEL IMA SESSION???', isLoggedIn);
   useEffect(() => {
     checkAuth();
   }, []);
@@ -23,7 +23,6 @@ export default function Home() {
     }
 
     setIsLoading(false);
-    console.log('STA JE RESULT???', result);
   };
 
   return (
