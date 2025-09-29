@@ -129,3 +129,24 @@ export function getTableColumnsAsChecks() {
     return { key, text: value, checked: true };
   });
 }
+
+export function removeSeconds(time) {
+  const arr = time.split(':');
+  return `${arr[0]}:${arr[1]}`;
+}
+
+export function stripSecondsFromTime(data) {
+  return data.map((obj) => {
+    const newObj = {};
+
+    for (let key in obj) {
+      if (key.includes('_time') && obj[key] !== null) {
+        newObj[key] = removeSeconds(obj[key]);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+
+    return newObj;
+  });
+}

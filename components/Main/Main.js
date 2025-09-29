@@ -17,6 +17,7 @@ import {
   getDefaultLogbookData,
   formatDate,
   getTableColumnsAsChecks,
+  stripSecondsFromTime,
 } from '@/utils/helpers';
 import {
   getMaxPageNum,
@@ -146,9 +147,9 @@ export default function Main(props) {
     setIsLoading(true);
     try {
       const data = await getAllLogs();
-
-      setLogbookData(data);
-      saveLogbookToStorage(data);
+      const preparedData = stripSecondsFromTime(data);
+      setLogbookData(preparedData);
+      saveLogbookToStorage(preparedData);
     } catch (err) {
       console.log('CANNOT GET RECORDS>>>', err);
     } finally {
