@@ -150,3 +150,45 @@ export function stripSecondsFromTime(data) {
     return newObj;
   });
 }
+
+export function addMorePrintInfo(searchParams, page) {
+  console.log('SEARCH PARAMS????', searchParams);
+  let str = '';
+
+  if (!searchParams || searchParams.length === 0) {
+    str += 'Page: ' + page;
+  } else {
+    searchParams.forEach((param, idx) => {
+      const obj = tableColumnKeys.find((col) =>
+        col.hasOwnProperty(param.label)
+      );
+      const label = obj[param.label];
+      const conjunction = convertOperatorAndValues(param.operator, param.value);
+
+      str += `${label}${conjunction}`;
+
+      if (idx < searchParams.length - 1) {
+        str += ' | ';
+      }
+    });
+  }
+
+  return `Query:::> ${str}`;
+}
+
+export function convertOperatorAndValues(operator, value) {
+  let str = '';
+
+  if (operator === '=') {
+    str = `: ${value}`;
+  } else if (operator === '<>') {
+    const [val1, val2] = value.split(/[,;]/);
+    str = `: between ${val1} and ${val2}`;
+  } else if (operator === '!=') {
+    str = ` is not ${value}`;
+  } else {
+    str = `${operator} ${value}`;
+  }
+
+  return str;
+}

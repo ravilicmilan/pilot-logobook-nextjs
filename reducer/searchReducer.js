@@ -1,3 +1,8 @@
+import { useReducer, createContext } from 'react';
+
+export const SearchContext = createContext(null);
+export const SearchDispatchContext = createContext(null);
+
 const defaultObj = { label: 'date', operator: '=', value: '' };
 const defaultState = [];
 
@@ -15,4 +20,14 @@ const searchReducer = (state = defaultState, action) => {
   }
 };
 
-export default searchReducer;
+export function SearchProvider(props) {
+  const [searchParams, dispatch] = useReducer(searchReducer, defaultState);
+
+  return (
+    <SearchContext value={searchParams}>
+      <SearchDispatchContext value={dispatch}>
+        {props.children}
+      </SearchDispatchContext>
+    </SearchContext>
+  );
+}

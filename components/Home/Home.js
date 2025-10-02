@@ -5,6 +5,7 @@ import Main from '../Main/Main';
 import Spinner from '../UI/Spinner/Spinner';
 import { verifySession } from '@/lib/session';
 import { useEffect, useState } from 'react';
+import { SearchProvider } from '@/reducer/searchReducer';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,7 +31,9 @@ export default function Home() {
       {isLoading ? (
         <Spinner />
       ) : isLoggedIn ? (
-        <Main />
+        <SearchProvider>
+          <Main />
+        </SearchProvider>
       ) : (
         <Login checkAuth={checkAuth} />
       )}

@@ -1,16 +1,17 @@
 'use client';
-import { useReducer } from 'react';
+import { useContext } from 'react';
 import classes from './Search.module.css';
 import Button from '../UI/Button/Button';
 import SearchParams from './SearchParams/SearchParams';
-import searchReducer from '@/reducer/searchReducer';
+import { SearchContext, SearchDispatchContext } from '@/reducer/searchReducer';
 import {
   findRecordsByQuery,
   prepareSearchParams,
 } from '@/utils/logbookHelpers';
 
 export default function Search(props) {
-  const [state, dispatch] = useReducer(searchReducer, []);
+  const state = useContext(SearchContext);
+  const dispatch = useContext(SearchDispatchContext);
 
   const onLabelChange = (idx, value) => {
     updateState(idx, 'label', value);
@@ -37,7 +38,7 @@ export default function Search(props) {
   };
 
   const findRecordsWithParams = () => {
-    // console.log('EXECUTE SEARCH!', state);
+    console.log('EXECUTE SEARCH!', state);
     const result = findRecordsByQuery(
       props.logbook,
       prepareSearchParams(state)

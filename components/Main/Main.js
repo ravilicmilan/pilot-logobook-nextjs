@@ -1,5 +1,5 @@
 'use client';
-import { useReducer, useState, useEffect } from 'react';
+import { useReducer, useState, useEffect, useContext } from 'react';
 import classes from './Main.module.css';
 import ButtonsWrapper from '../ButtonsWrapper/ButtonsWrapper';
 import Search from '../Search/Search';
@@ -18,6 +18,7 @@ import {
   formatDate,
   getTableColumnsAsChecks,
   stripSecondsFromTime,
+  addMorePrintInfo,
 } from '@/utils/helpers';
 import {
   getMaxPageNum,
@@ -26,6 +27,7 @@ import {
 } from '@/utils/logbookHelpers';
 import { logout } from '@/lib/user';
 import { printContent } from '@/utils/print';
+import { SearchContext } from '@/reducer/searchReducer';
 
 export default function Main(props) {
   const dataFromStorage = getLogbookFromStorage();
@@ -43,6 +45,7 @@ export default function Main(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [showPrint, setShowPrint] = useState(false);
   const [fields, setFields] = useState(getTableColumnsAsChecks() || {});
+  const searchParams = useContext(SearchContext);
 
   useEffect(() => {
     if (logbook.length > 0) {
@@ -193,8 +196,7 @@ export default function Main(props) {
 
   const executePrint = () => {
     closePrintDialog();
-    console.log('PRINTING!!!!!!!!!!!', fields);
-    printContent(fields);
+    printContent(fields, addMorePrintInfo(searchParams, pageNum));
   };
 
   const goToFirstPage = () => {
@@ -288,7 +290,7 @@ export default function Main(props) {
 
   const styles = ['flex-column', 'flex-center', classes.Main].join(' ');
 
-  // console.log('MAIN RENDER::::', logbook);
+  // console.log('MAIN RENDER::::', searchParams);
   return (
     <div className={styles}>
       {!isLoading ? renderMainContent() : <Spinner />}

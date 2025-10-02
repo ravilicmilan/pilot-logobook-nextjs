@@ -1,8 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+
 import classes from './Print.module.css';
 import Checkbox from '../UI/Checkbox/Checkbox';
-
 import Button from '../UI/Button/Button';
 
 export default function Print(props) {
@@ -35,7 +34,7 @@ export default function Print(props) {
           classes.ButtonsWrapper,
         ].join(' ')}
       >
-        <Button buttonText='SAVE' onClick={executePrint} type='Primary' />
+        <Button buttonText='PRINT' onClick={executePrint} type='Primary' />
         <Button buttonText='CLOSE' onClick={closePrintDialog} type='Close' />
       </div>
     </div>

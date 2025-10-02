@@ -1,7 +1,24 @@
-export function printContent(elements) {
+export function printContent(elements, additionalInfo) {
+  const title = `<h3 id="title">${additionalInfo}</h3>`;
   let divToPrint = document.getElementById('logbook-table');
   let htmlToPrint = `
     <style type="text/css">
+      @page {
+        /* Define the size of the page for printing */
+        /* size: A4; */
+        /* Define margins for the page */
+        margin: 1cm;
+        margin-bottom: 2cm; /* Adjust as needed to make space for the footer */
+        /* Add content to the bottom-right of each page */
+        
+        @bottom-right {
+          content: "Page " counter(page) " of " counter(pages);
+          font-family: Arial;
+          font-size: 10px;
+          border-top: 1px solid #ccc;
+          padding-top: 5px;
+        }
+      }
       #header,
       #button-wrapper,
       #pagination-wrapper,
@@ -29,17 +46,38 @@ export function printContent(elements) {
         color: #333;
         border-collapse: collapse;
         border-spacing: 0;
-        font-size: 10px;
+        font-size: 9px;
         text-align: center;
       }
       table td {
-        padding: 10px 0;
+        padding: 5px 0;
       }
       .td_date {
         min-width: 65px !important;
       }
       #row-total td, #row-subtotal td {
         font-weight: bold;
+      }
+      .td_pic_time,
+      .td_dual_time,
+      .td_total_flight_time,
+      .td_single_engine_time,
+      .td_multi_engine_time, {
+        min-width: 40px !important;
+      }
+      .td_aircraft_model {
+        min-width: 50px !important;
+      } 
+      .td_remarks {
+        min-width: 80px !important;
+      }
+      .td_route {
+        min-width: 100px !important;
+      }
+      #title {
+        text-align: center;
+        font-size: 12px;
+        content: #333;
       }
     </style>
   `;
@@ -56,6 +94,7 @@ export function printContent(elements) {
   additionalStyles += `</style> `;
 
   htmlToPrint += additionalStyles;
+  htmlToPrint += title;
   htmlToPrint += divToPrint.outerHTML;
   const newWin = window.open('');
   newWin.document.body.innerHTML = htmlToPrint;
